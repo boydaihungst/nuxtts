@@ -1,10 +1,12 @@
 import { Configuration } from '@nuxt/types';
 import * as Colors from 'vuetify/es5/util/colors';
+import TerserPlugin from 'terser-webpack-plugin';
 const colorList = Colors.default;
 
 const config: Configuration = {
   mode: 'spa',
   srcDir: 'src',
+  dev: process.env.NODE_ENV !== 'production',
 
   /*
    ** Headers of the page
@@ -34,15 +36,13 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  // plugins: ['~/plugins/axios', '~/plugins/vuexAccessor'],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxt/typescript-build',
-    // Doc: https://github.com/nuxt-community/eslint-module
-    // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify',
     '@nuxtjs/router',
@@ -52,16 +52,43 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/dotenv-module
-  ],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    https: true,
+    progress: true,
+    retry: { retries: 5 },
+    debug: process.env.NODE_ENV !== 'production',
+    prefix: 'api/v1',
+    credentials: true,
+  },
+  auth: {
+    cookie: false,
+    plugins: [],
+
+    redirect: {
+      login: '/api/login',
+      logout: '/api',
+      callback: '/api/login',
+      home: '/',
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/login',
+            method: 'post',
+            propertyName: false,
+          },
+          logout: { url: '/logout', method: 'post' },
+          user: { url: '/user', method: 'get', propertyName: 'user' },
+        },
+      },
+    },
+  },
   dotenv: {
     path: './',
     /* module options */
@@ -97,12 +124,24 @@ const config: Configuration = {
     path: './src/routes',
     fileName: 'routes.ts',
   },
+  router: {
+    // middleware: ['auth'],
+  },
   generate: { routes: ['/'] },
   /*
    ** Build configuration
    */
   build: {
     transpile: [/typed-vuex/],
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          cache: true,
+          parallel: false,
+        }),
+      ],
+    },
     /*
      ** You can extend webpack config here
      */

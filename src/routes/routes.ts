@@ -6,20 +6,21 @@ Component.registerHooks([
   'beforeRouteUpdate',
 ]);
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-
+import VueRouter, { RouteConfig } from 'vue-router';
 Vue.use(VueRouter);
 
-const routes = [
+const routes: RouteConfig[] = [
   {
     path: '',
-    component: () => import('~/layouts/default.vue'),
+    component: () =>
+      import('~/layouts/default.vue').then((m) => m.default || m),
     redirect: { name: 'homePage' },
     children: [
       {
         name: 'homePage',
         path: '/home',
-        component: () => import('~/pages/index.vue'),
+        component: () =>
+          import('~/pages/index.vue').then((m) => m.default || m),
         meta: { pageName: 'Trang chủ' },
       },
     ],

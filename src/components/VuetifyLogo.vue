@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  export default Vue.extend({});
+  import { Component, Vue } from 'vue-property-decorator';
+  @Component
+  export default class LogoComponent extends Vue {}
 </script>
 
 <style lang="scss">

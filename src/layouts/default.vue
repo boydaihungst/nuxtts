@@ -11,8 +11,8 @@
   </v-app>
 </template>
 
-<script>
-  import { Component, Vue } from 'vue-property-decorator';
+<script lang="ts">
+  import { Component, Vue, Prop } from 'vue-property-decorator';
 
   @Component({
     components: {
@@ -20,5 +20,8 @@
       VuetifyLogo: () => import('~/components/VuetifyLogo.vue'),
     },
   })
-  export default class BoardComponent extends Vue {}
+  export default class DefaultComponent extends Vue {
+    @Prop() name: string;
+  }
 </script>
+<style lang="scss" scoped></style>
