@@ -1,5 +1,5 @@
-import { accessorType } from '~/store/index';
 import { Auth } from './auth';
+import { accessorType } from '~/store/index';
 
 declare module '@nuxt/vue-app' {
   interface Context {
