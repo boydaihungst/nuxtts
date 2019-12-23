@@ -20,6 +20,7 @@
     auth = false;
 
     async doLogin() {
+      this.$axios.getUri();
       await this.$auth.loginWith('local', {
         data: {
           email: 'eve.holt@reqres.in',

@@ -25,6 +25,10 @@ const routes: RouteConfig[] = [
       },
     ],
   },
+  {
+    path: '*',
+    component: () => import('~/layouts/error.vue').then((m) => m.default || m),
+  },
 ];
 
 export function createRouter() {

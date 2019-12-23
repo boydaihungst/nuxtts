@@ -7,7 +7,10 @@ const config: Configuration = {
   mode: 'spa',
   srcDir: 'src',
   dev: process.env.NODE_ENV !== 'production',
-
+  router: {
+    // middleware: ['auth'],
+  },
+  serverMiddleware: ['~/server/index.ts'],
   /*
    ** Headers of the page
    */
@@ -62,7 +65,7 @@ const config: Configuration = {
     progress: true,
     retry: { retries: 5 },
     debug: process.env.NODE_ENV !== 'production',
-    prefix: 'api/v1',
+    prefix: '',
     credentials: true,
   },
   auth: {
@@ -70,7 +73,7 @@ const config: Configuration = {
     plugins: [],
 
     redirect: {
-      login: '/api/login',
+      login: '/login',
       logout: '/api',
       callback: '/api/login',
       home: '/',
@@ -124,9 +127,6 @@ const config: Configuration = {
     path: './src/routes',
     fileName: 'routes.ts',
   },
-  router: {
-    // middleware: ['auth'],
-  },
   generate: { routes: ['/'] },
   /*
    ** Build configuration
@@ -145,7 +145,11 @@ const config: Configuration = {
     /*
      ** You can extend webpack config here
      */
-    // extend(config, ctx) {}
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = 'source-map';
+      }
+    },
   },
   typescript: {
     typeCheck: {
