@@ -13,11 +13,10 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue } from 'nuxt-property-decorator';
   @Component({
     components: {
       Logo: () => import('~/components/Logo.vue'),
-      VuetifyLogo: () => import('~/components/VuetifyLogo.vue'),
     },
   })
   export default class Default extends Vue {}

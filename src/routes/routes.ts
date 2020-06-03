@@ -1,29 +1,58 @@
-/* eslint-disable import/first */
-import { Component } from 'vue-property-decorator';
-Component.registerHooks([
-  'beforeRouteEnter',
-  'beforeRouteLeave',
-  'beforeRouteUpdate',
-]);
-import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import 'vue-class-component/hooks';
+import './class-component-hooks';
+import Vue from 'vue';
+// Layouts
+const DefaultLayout = () =>
+  import('~/layouts/default.vue').then((m) => m.default || m);
+// Pages
+const Homepage = () => import('~/pages/Home.vue').then((m) => m.default || m);
+const SearchPage = () =>
+  import('~/pages/Search.vue').then((m) => m.default || m);
+const MovieWatch = () =>
+  import('~/pages/MovieWatch.vue').then((m) => m.default || m);
+
 Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
   {
     path: '',
-    component: () =>
-      import('~/layouts/default.vue').then((m) => m.default || m),
-    redirect: { name: 'homePage' },
+    component: Homepage,
     children: [
       {
-        name: 'homePage',
+        name: 'homepage',
         path: '/home',
-        component: () =>
-          import('~/pages/index.vue').then((m) => m.default || m),
-        meta: { pageName: 'Trang chủ' },
+        components: {
+          default: Homepage,
+        },
+        meta: {},
       },
     ],
+  },
+  {
+    name: 'filterMovie',
+    // /tim-kiem/anime/BD/2020
+    path: '/tim-kiem/:movieType/:catelog/:catelogFilter',
+    components: {
+      default: SearchPage,
+    },
+    meta: {},
+  },
+  {
+    name: 'detail',
+    path: '/thong-tin/:movieType/:movieName',
+    components: {
+      default: SearchPage,
+    },
+    meta: {},
+  },
+  {
+    name: 'watch-movie',
+    path: '/xem/:movieName/:id',
+    components: {
+      default: MovieWatch,
+    },
+    meta: {},
   },
   {
     path: '*',

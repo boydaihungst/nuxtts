@@ -5,5 +5,6 @@
   "bracketSpacing": true,
   "trailingComma": "all",
   "vueIndentScriptAndStyle": true,
-  "jsxBracketSameLine": true
+  "jsxBracketSameLine": true,
+  "htmlWhitespaceSensitivity": "ignore"
 }

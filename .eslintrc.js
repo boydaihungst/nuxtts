@@ -6,6 +6,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    'vuetify',
     '@nuxtjs',
     'prettier',
     'prettier/vue',
@@ -20,11 +21,12 @@ module.exports = {
     'vue/max-attributes-per-line': 'off',
     'nuxt/no-cjs-in-config': 'off',
     'vue/html-self-closing': 'off',
-    semi: ['error', 'always'],
     'comma-dangle': 'off',
     'space-before-function-paren': 'off',
     'arrow-parens': 'off',
     'no-unused-vars': 'off',
+    semi: 'off',
     indent: 'off',
+    '@typescript-eslint/semi': ['warn', 'always'],
   },
 };
